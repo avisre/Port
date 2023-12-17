@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const express = require('express');
-const path = require('path');
-const cors = require('cors');
+
+const cors = require('cors'); 
 // ...
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
+app.use(bodyParser.json());
 // Serve static files from the 'Front-end' folder
 
 app.use(cors());
@@ -31,9 +32,15 @@ app.post('/add', function (req, res) {
         email: req.body.email,
         message: req.body.message,
     });
-    newContact.save();
-    res.json({ message: 'Form submitted successfully!' });
-    res.redirect('/');
+    newContact.save()
+    .then(() => {
+        res.json({ message: 'Data submitted successfully!' });
+    })
+    .catch(error => {
+        console.error('Error saving data:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    });
+  
 });
 
 // Add a route to serve the CSS file
