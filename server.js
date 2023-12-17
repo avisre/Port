@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve static files from the 'Front-end' folder
-app.use(express.static(path.join(__dirname, 'Front-end')));
+
 app.use(cors());
 mongoose.connect('mongodb+srv://project:project@cluster0.kos1k7l.mongodb.net/portfolio1', {
     useNewUrlParser: true,
@@ -23,9 +23,7 @@ const contactSchema = {
 };
 const Contact = mongoose.model('Contact', contactSchema);
 
-app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'Front-end', 'index.html'));
-});
+
 
 app.post('/add', function (req, res) {
     let newContact = new Contact({
@@ -39,9 +37,6 @@ app.post('/add', function (req, res) {
 });
 
 // Add a route to serve the CSS file
-app.get('/style.css', function (req, res) {
-    res.sendFile(path.join(__dirname, 'Front-end', 'style.css'));
-});
 
 app.listen(3000, function () {
     console.log('App is running on http://localhost:3000');
